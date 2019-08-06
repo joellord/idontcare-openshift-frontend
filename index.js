@@ -14,19 +14,17 @@ fetch("/config").then(resp => resp.json()).then(config => {
 //Reset token
 localStorage.removeItem("access_token");
 
-let serverUrl = API_URL;
-
 const headlineBtn = document.querySelector("#headline");
 const secretBtn = document.querySelector("#secret");
 const loginBtn = document.querySelector("#loginBtn");
 const logoutBtn = document.querySelector("#logoutBtn");
 
 headlineBtn.addEventListener("click", () => {
-  fetcher(serverUrl + "/headline");
+  fetcher(API_URL + "/headline");
 });
 
 secretBtn.addEventListener("click", (event) => {
-  fetcher(serverUrl + "/protected/headline");
+  fetcher(API_URL + "/protected/headline");
 });
 
 logoutBtn.addEventListener("click", (event) => {
