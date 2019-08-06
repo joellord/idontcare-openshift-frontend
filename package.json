@@ -1,0 +1,20 @@
+{
+  "name": "vanilla",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.html",
+  "scripts": {
+    "start": "node server",
+    "startall": "concurrently --kill-others npm:run-* \"serve\"",
+    "run-api": "nodemon ../server/api.js",
+    "run-api_auth0": "nodemon ../server/apiauth0.js",
+    "run-auth": "nodemon ../server/auth-with-login.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Joel Lord",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^8.0.0",
+    "express": "^4.17.1"
+  }
+}
