@@ -2,17 +2,21 @@ const ACCESS_TOKEN = "access_token";
 
 let auth = {};
 
+let keycloak;
+let isKeycloakInitialized = false;
+
 auth.login = () => {
   if (!USE_KEYCLOAK) {
     return auth.loginTraditional();
   } else {
-    return auth.loginKeycloak;
+    return auth.loginKeycloak();
   }
 };
 
 auth.logout = () => {
   localStorage.removeItem("access_token");
   localStorage.removeItem("id_token");
+  if (USE_KEYCLOAK && isKeycloakInitialized) keycloak.logout();
 };
 
 // loginTradition sends a POST request to the auth server
@@ -27,8 +31,25 @@ auth.isLoggedIn = () => {
   return !!localStorage.getItem(ACCESS_TOKEN);
 };
 
+auth.keycloakInit = () => {
+  keycloak = Keycloak({
+    "realm": "idontcare",
+    "clientId": "idontcare",
+    "auth-server-url": "http://keycloak-idontcare.apps.us-east-2.online-starter.openshift.com/auth",
+    "ssl-required": "external",
+    "resource": "idontcare",
+    "public-client": true
+  });
+  keycloak.init({ flow: "implicit"}).success(() => {
+    isKeycloakInitialized = true;
+    console.log("Initialized");
+  }).error(err => {
+    console.log("Not Initialized", err);
+  });
+}
+
 auth.loginKeycloak = () => {
-  alert("Not implemented yet");
+  if (isKeycloakInitialized) keycloak.login();
 };
 
 // Parses the hash info on redirect and extracts the

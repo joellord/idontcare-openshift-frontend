@@ -8,7 +8,13 @@ fetch("/config").then(resp => resp.json()).then(config => {
   if (config.API_URL) API_URL = config.API_URL;
   if (config.HTTP_CAT_URL) HTTP_CAT_URL = config.HTTP_CAT_URL;
   if (config.AUTH_URL) AUTH_URL = config.AUTH_URL;
-  if (config.USE_KEYCLOAK) USE_KEYCLOAK = config.USE_KEYCLOAK;
+  if (config.USE_KEYCLOAK) {
+    USE_KEYCLOAK = config.USE_KEYCLOAK;
+    let keycloakJs = document.createElement("script");
+    keycloakJs.src = `${USE_KEYCLOAK}/auth/js/keycloak.js`;
+    keycloakJs.onload = auth.keycloakInit;
+    document.body.appendChild(keycloakJs);
+  }
 });
 
 //Reset token
